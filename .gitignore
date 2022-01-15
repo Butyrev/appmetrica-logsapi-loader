@@ -167,3 +167,6 @@ ENV/
 
 # Project Related
 /data
+
+#Account data
+.env
