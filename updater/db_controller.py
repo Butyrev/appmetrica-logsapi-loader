@@ -94,7 +94,7 @@ class DbController(object):
     @staticmethod
     def _export_data_to_tsv(df: DataFrame) -> str:
         logger.debug("Exporting data to csv")
-        return df.to_csv(index=False, sep='\t')
+        return df.to_csv(index=False, sep='\t', header=False)
 
     def _create_table(self, table_name):
         self._db.create_table(

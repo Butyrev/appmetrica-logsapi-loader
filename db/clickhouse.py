@@ -50,7 +50,8 @@ class ClickhouseDatabase(Database):
             raise ValueError(r.text)
 
     def _upload_clickhouse_data(self, table_name: str, content: str) -> str:
-        query = 'INSERT INTO {db}.{table} FORMAT TabSeparatedWithNames' \
+        #query = 'INSERT INTO {db}.{table} FORMAT TabSeparatedWithNames' \
+        query = 'INSERT INTO {db}.{table} FORMAT TabSeparated' \
             .format(db=self.db_name, table=table_name)
         return self._query_clickhouse(content, query=query)
 
@@ -162,7 +163,8 @@ class ClickhouseDatabase(Database):
             self._query_clickhouse(new_query)
 
     def insert(self, table_name: str, tsv_content: str):
-        query = 'INSERT INTO {db}.{table} FORMAT TabSeparatedWithNames' \
+        #query = 'INSERT INTO {db}.{table} FORMAT TabSeparatedWithNames' \
+        query = 'INSERT INTO {db}.{table} FORMAT TabSeparated' \
             .format(db=self.db_name, table=table_name)
         return self._query_clickhouse(tsv_content, query=query)
 
