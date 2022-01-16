@@ -1,20 +1,33 @@
 version: '3'
 services:
   loader:
+    container_name: appmetrica-logsapi-loader
     image: 'yandex/appmetrica-logsapi-loader'
     build: './'
     environment:
      - TOKEN=${TOKEN}
      - APP_IDS=${APP_IDS}
-     - CH_HOST=http://db:8123
+     - CH_HOST=http://db-clickhouse:8123
     volumes:
      - loader-data:/usr/src/data
+    networks:
+     - appmetrica
     depends_on:
-     - db
-  db:
+     - db-clickhouse
+  db-clickhouse:
+    container_name: db-clickhouse
     image: 'yandex/clickhouse-server'
     volumes:
-      - db-data:/var/lib/clickhouse
+      - /var/lib/clickhouse:/var/lib/clickhouse
+    networks:
+     - appmetrica
+    ports:
+      - 8123:8123
+
 volumes:
   loader-data:
-  db-data:
+
+networks:
+  appmetrica:
+    name: appmetrica-network
+    driver: bridge
